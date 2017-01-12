@@ -10,7 +10,7 @@ module.exports.index = function(req, res, next) {
     // 'X-FRAME-OPTIONS' indicate that wheather <frame>,<iframe>,<object> is loadable or not.
     res.set('X-FRAME-OPTIONS', 'DENY');
 
-    res.render('index', {head: {title:'title'}, body:{title: 'body title', description: 'description...'}});
+    res.render('application', {head: {title:'title'}, body:{title: 'body title', description: 'description...'}});
     //res.send("application.js");
     //next();
 };

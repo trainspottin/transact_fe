@@ -1,0 +1,46 @@
+<html>
+<head>
+{{head.title}}
+</head>
+<body>
+  <strong>Big Platform</strong>
+  {{body.title}}<br/>
+  {{body.description}}<br/>
+</body>
+<script id="menu-list" type="text/template">
+    <ul class="tabmenu">
+      <li ><a class="menu-toggled" href="/LandAgent/index.jsp">Home</a></li>
+      <li><span>Admin</span>
+        <ul>
+          <li><a href="admin_user.jsp">User Account</a></li>
+          <li><a href="admin_group.jsp">Group Account</a></li>
+          <li><a href="admin_map_user_group.jsp">Group Mapping</a></li>
+          <li><a href="admin_resource.jsp">Resource Setting</a></li>
+        </ul>
+      </li>
+      <li><a href="SalaryInfo.jsp">Salary</a></li>
+      <li><span>Bank</span>
+        <ul>
+          <li><a href="BankIdList.jsp">BankID</a></li>
+          <li><a href="BankCurrency.jsp">Currency</a></li>
+          <li><a href="BankMyAccountList.jsp">Accounts</a></li>
+          <li><a href="Transaction.jsp">Transaction</a></li>
+          <li><a href="MonthlyPay.jsp">Monthly Payment</a></li>
+        </ul>
+      </li>
+      <li><span>Invest</span>
+        <ul>
+          <li><a href="Gold.jsp">Gold</a></li>
+          <li><a href="Stock.jsp">Stock</a></li>
+        </ul>
+      </li>
+      <li><span>HTC</span>
+        <ul>
+          <li><a href="GerritUpdateList.jsp">Update List</a></li>
+          <li><a href="GerritRawList.jsp">Patch Raw Data</a></li>
+          <li><a href="GerritReport.jsp">Gerrit Report</a></li>
+        </ul>
+      </li>
+    </ul>
+</script>
+</html>
