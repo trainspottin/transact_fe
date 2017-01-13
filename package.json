@@ -1,10 +1,13 @@
 {
-    "name": "transact-app",
-    "version" : "0.0.1",
-    "description" : "Transaction Web Application",
-    "dependencies" : {
-        "express" : "4.14.0",
-        "gulp-util" : "3.0.8",
-        "mustache-express" : "1.2.4"
-    }
+  "name": "transact-app",
+  "version": "0.0.1",
+  "description": "Transaction Web Application",
+  "dependencies": {
+    "express": "4.14.0",
+    "gulp-util": "3.0.8",
+    "mustache-express": "1.2.4"
+  },
+  "devDependencies": {
+    "webpack": "^1.14.0"
+  }
 }
