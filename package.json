@@ -8,6 +8,22 @@
     "mustache-express": "1.2.4"
   },
   "devDependencies": {
-    "webpack": "^1.14.0"
+    "html-webpack-plugin": "^2.26.0",
+    "webpack": "^1.14.0",
+    "webpack-dev-server": "^1.16.2"
+  },
+  "scripts": {
+    "_comment": [
+      "// Script     : debug |  run  | test  |  tdd  | build-debug | build-release |",
+      "//------------:-------|-------|-------|-------|-------------|---------------|",
+      "// NODE_ENV   :  dev  | prod  |  dev  |  dev  |    prod     |    prod       |",
+      "// NODE_DEBUG : debug | debug | debug | debug |    debug    |    -----      |"
+    ],
+    "debug": "webpack --progress",
+    "run": "node main/server/app.js",
+    "test": "echo 'test'",
+    "tdd": "echo 'tdd'",
+    "build-debug": "echo 'build-debug'",
+    "build-release": "echo 'build-release"
   }
 }

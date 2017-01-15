@@ -1,3 +1,5 @@
+'use strict';
+
 // Tools libraries
 var path = require('path');
 var gutil = require('gulp-util');
