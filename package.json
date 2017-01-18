@@ -5,12 +5,24 @@
   "dependencies": {
     "express": "4.14.0",
     "gulp-util": "3.0.8",
-    "mustache-express": "1.2.4"
+    "hogan.js": "^3.0.2",
+    "mustache-express": "1.2.4",
+    "mustache-loader": "^0.4.1"
   },
   "devDependencies": {
+    "clean-webpack-plugin": "^0.1.15",
+    "eslint": "^3.13.1",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-loader": "^1.6.1",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-standard": "^2.0.1",
+    "extract-text-webpack-plugin": "^1.0.1",
     "html-webpack-plugin": "^2.26.0",
+    "raw-loader": "^0.5.1",
+    "stats-webpack-plugin": "^0.4.3",
     "webpack": "^1.14.0",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^1.16.2",
+    "webpack-logger-plugin": "^1.2.0"
   },
   "scripts": {
     "_comment": [
@@ -19,11 +31,12 @@
       "// NODE_ENV   :  dev  | prod  |  dev  |  dev  |    prod     |    prod       |",
       "// NODE_DEBUG : debug | debug | debug | debug |    debug    |    -----      |"
     ],
-    "debug": "webpack --progress",
-    "run": " webpack-dev-server --devtool eval --progress --colors --hot --content-base build",
+    "start": "node main/server/app.js",
+    "debug": "NODE_DEBUG='debug' npm start & webpack-dev-server --devtool eval --progress --colors --hot --port 9487",
+    "run": "node main/server/app.js",
     "test": "echo 'test'",
     "tdd": "echo 'tdd'",
-    "build-debug": "echo 'build-debug'",
-    "build-release": "echo 'build-release"
+    "build-debug": "NODE_DEBUG='debug' webpack --progress",
+    "build-release": "NODE_ENV='production' webpack --progress"
   }
 }
