@@ -36,7 +36,7 @@ module.exports = [
     entry : "./app.js",
     target : "node",
     output: {
-        path: __dirname + "target/workspace/asset/[hash]/server",
+        path: __dirname + "/target/workspace/asset/[hash]/server",
         filename : "[name].bundle.js",
         publicPath: "/"
     },
