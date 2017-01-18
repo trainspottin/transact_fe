@@ -20,7 +20,7 @@
       "// NODE_DEBUG : debug | debug | debug | debug |    debug    |    -----      |"
     ],
     "debug": "webpack --progress",
-    "run": "node main/server/app.js",
+    "run": " webpack-dev-server --devtool eval --progress --colors --hot --content-base build",
     "test": "echo 'test'",
     "tdd": "echo 'tdd'",
     "build-debug": "echo 'build-debug'",
