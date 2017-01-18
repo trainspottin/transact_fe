@@ -7,7 +7,7 @@ var gutil = require('gulp-util');
 // Server libraries
 var express = require('express');
 var app = express();
-var port = process.argv[2] || 8080;
+var port = process.argv[2] || 3000;
 
 // View Engine
 gutil.log('views path: %s', path.join(__dirname, 'views'));

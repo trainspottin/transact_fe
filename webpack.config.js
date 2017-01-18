@@ -25,11 +25,11 @@ fs.readdirSync('node_modules')
 
 /* Setup Plugin*/
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+//const CleanWebpackPlugin = require('clean-webpack-plugin');
+//const ExtractTextPlugin = require("extract-text-webpack-plugin");
 var plugins = [];
 //plugins.push(new HtmlWebpackPlugin({filename:"application.html", "template": path.resolve(__dirname,"main/server/views","application.mustache.html")}));
-plugins.push(new ExtractTextPlugin('app.bundle.css'));
+//plugins.push(new ExtractTextPlugin('app.bundle.css'));
 plugins.push(new webpack.optimize.CommonsChunkPlugin(path.resolve(__dirname,'vendors'), 'vendors.js'));
 plugins.push(new webpack.ProvidePlugin({$: 'jquery', jQuery: 'jquery', 'window.jQuery': 'jquery', 'root.JQuery': 'jquery'}));
 //plugins.push(new CleanWebpackPlugin(['target'], {"root": __dirname, "verbose": true, "dry": false, "exclude": []    }));
@@ -58,28 +58,45 @@ module.exports = [
          // loader: 'mustache?{ minify: { removeComments: false } }' 
          // loader: 'mustache?noShortcut' 
         },
-        {test: /\.html$/, loader: "raw", exclude: /node_modules/},
-        {test: /\.js$/, loader: "eslint-loader", exclude: /node_modules/}
+        {test: /\.html$/, loader: "raw", exclude: /node_modules/}
         ]
     },
     plugins: plugins, 
 },
 {
+    devtool: "inline-source-map",
     name : "client",
     context: path.resolve(__dirname, "main/client"),
-    entry : "./app.js",
-    //target : "node",
+    entry : [
+        "webpack-dev-server/client?http://127.0.0.1:8080",
+        "webpack/hot/only-dev-server",
+        "./app.js"
+    ],
     output: {
         path: path.join(TARGET_WORKSPACE, "client/"),
         filename : "[name].bundle.js",
         publicPath: "/"
     },
+    resolve: {
+        extension: ["", ".js"]
+    },
     externals: nodeModules,
     module:{
         loaders: [
-           {test: /\.js$/, loader: "eslint-loader", exclude: /node_modules/}
+           {test:/\.js$/, exclude:/node_modules/, loader:'babel-loader'},
+           {test: /\.html$/, loader: "raw", exclude: /node_modules/}
         ]
     },
-    plugins: plugins, 
+    plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin()
+    ],
+    devServer: {
+        contentBase: path.join(TARGET_WORKSPACE, "client/"),
+        hot: true,
+        proxy: {
+            "*":"http://localhost:3000"
+        }
+    }
 }
 ];
