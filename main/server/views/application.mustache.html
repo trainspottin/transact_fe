@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<base href="/assets/#hash/">
+<base href="/">
 <!-- Angular JS Loader -->
-<script data-main="app.js" src="vendor/requirejs/require.js" type="text/javascript"></script>
 {{head.title}}
 </head>
 <body>
   <h1>This is Server</h1>
   {{body.title}}
+  <div ui-view></div>
+  <script src="main.bundle.js"></script>
 </body>
 </html>
