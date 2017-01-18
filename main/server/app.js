@@ -10,23 +10,23 @@ var app = express();
 var port = process.argv[2] || 8080;
 
 // View Engine
-gutil.log("views path: %s", path.join(__dirname, 'views'));
+gutil.log('views path: %s', path.join(__dirname, 'views'));
 var mustacheExpress = require('mustache-express');
-app.engine('html', mustacheExpress());
-app.set('view engine', 'html');
+app.engine('mustache.html', mustacheExpress());
+app.set('view engine', 'mustache.html');
 app.set('views', path.join(__dirname, 'views'));
 
 // Router configuration
 var controllers_path = path.join(__dirname, 'controllers');
-gutil.log("controllers path: %s", controllers_path);
-var router = express.Router(),
-    application = require(path.join(controllers_path, 'application'));
+gutil.log('controllers path: %s', controllers_path);
+var router = express.Router();
+var application = require(path.join(controllers_path, 'application'));
 router.get('/', application.index);
 
 // Apply router
 app.use('/', router);
-var server = app.listen(port, function() {
-     var host = server.address().address;
-     var port = server.address().port;
-     gutil.log('Server is listening at http://%s:%s', host, port);
+var server = app.listen(port, function(){
+    var host = server.address().address;
+    var port = server.address().port;
+    gutil.log('Server is listening at http://%s:%s', host, port);
 });

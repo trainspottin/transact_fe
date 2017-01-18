@@ -1,50 +1,85 @@
 var NODE_DEBUG = process.env.NODE_DEBUG === "debug";
 var NODE_ENV = process.env.NODE_ENV !== "production";
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+var NODE_HASH = (NODE_DEBUG) ? "dev" : ""+new Date().getTime();
 
-var fs = require("fs");
+const path = require('path');
+const gutil = require('gulp-util');//For Logger
+const webpack = require('webpack');
+
+gutil.log("NODE_DEBUG=%s", NODE_DEBUG);
+gutil.log("NODE_ENV  =%s", NODE_ENV);
+gutil.log("NODE_HASH =%s", NODE_HASH);
+
+gutil.log("SERVER WORKSPACE: %s", path.join(__dirname, "target/workspace/assets/", NODE_HASH, "server/"));
+const TARGET_WORKSPACE = path.join(__dirname, "target/workspace/assets/", NODE_HASH);
+
 var nodeModules = {};
+var fs = require("fs");
 fs.readdirSync('node_modules')
     .filter(function(x) {
         return ['.bin'].indexOf(x) === -1;
-    })
+     })
     .forEach(function(mod) {
         nodeModules[mod] = 'commonjs ' + mod;    
     });
 
+/* Setup Plugin*/
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+var plugins = [];
+//plugins.push(new HtmlWebpackPlugin({filename:"application.html", "template": path.resolve(__dirname,"main/server/views","application.mustache.html")}));
+plugins.push(new ExtractTextPlugin('app.bundle.css'));
+plugins.push(new webpack.optimize.CommonsChunkPlugin(path.resolve(__dirname,'vendors'), 'vendors.js'));
+plugins.push(new webpack.ProvidePlugin({$: 'jquery', jQuery: 'jquery', 'window.jQuery': 'jquery', 'root.JQuery': 'jquery'}));
+//plugins.push(new CleanWebpackPlugin(['target'], {"root": __dirname, "verbose": true, "dry": false, "exclude": []    }));
+plugins.push(new webpack.optimize.DedupePlugin());
+plugins.push(new webpack.optimize.OccurenceOrderPlugin());
+plugins.push(new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false}));
 
 module.exports = [
 {
-    name : "client",
-    context: __dirname+"/main",
-    devtool: NODE_DEBUG  ? "inlin-sourcemap" : null,
-    entry: './client/js/scripts.js',
-    output:{
-        path: __dirname + "/target/workspace/assets/[hash]",
-        filename: "[name].min.js",
-        publicPath: "/assets/[hash]/"
-    },
-    plugins: NODE_DEBUG ? [] : [
-        new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false}),
-    ], 
-},{
     name : "server",
-    context: __dirname+"/main/server",
+    context: path.resolve(__dirname, "main/server"),
     entry : "./app.js",
-    target : "node",
+    //target : "node",
     output: {
-        path: __dirname + "/target/workspace/asset/[hash]/server",
+        path: path.join(TARGET_WORKSPACE, 'server/'),
         filename : "[name].bundle.js",
         publicPath: "/"
     },
     externals: nodeModules,
-    plugins: NODE_DEBUG ? [] : [
-        new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false}),
-    ], 
+    module:{
+        loaders: [{
+            test: /\.mustache\.html$/,
+            exclude: /node_modules/,
+            loader: 'mustache'
+         // loader: 'mustache?minify' 
+         // loader: 'mustache?{ minify: { removeComments: false } }' 
+         // loader: 'mustache?noShortcut' 
+        },
+        {test: /\.html$/, loader: "raw", exclude: /node_modules/},
+        {test: /\.js$/, loader: "eslint-loader", exclude: /node_modules/}
+        ]
+    },
+    plugins: plugins, 
+},
+{
+    name : "client",
+    context: path.resolve(__dirname, "main/client"),
+    entry : "./app.js",
+    //target : "node",
+    output: {
+        path: path.join(TARGET_WORKSPACE, "client/"),
+        filename : "[name].bundle.js",
+        publicPath: "/"
+    },
+    externals: nodeModules,
+    module:{
+        loaders: [
+           {test: /\.js$/, loader: "eslint-loader", exclude: /node_modules/}
+        ]
+    },
+    plugins: plugins, 
 }
 ];
