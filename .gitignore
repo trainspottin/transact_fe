@@ -3,3 +3,4 @@ node_modules
 main/vendor
 target
 .DS_Store
+htcaccount.js
