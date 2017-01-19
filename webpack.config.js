@@ -12,6 +12,7 @@ gutil.log("NODE_HASH =%s", NODE_HASH);
 
 gutil.log("SERVER WORKSPACE: %s", path.join(__dirname, "target/workspace/assets/", NODE_HASH, "server/"));
 const TARGET_WORKSPACE = path.join(__dirname, "target/workspace/assets/", NODE_HASH);
+gutil.log("ContentBase path:%s", path.join(TARGET_WORKSPACE, "client/"));
 
 var nodeModules = {};
 var fs = require("fs");
@@ -37,7 +38,7 @@ plugins.push(new webpack.optimize.DedupePlugin());
 plugins.push(new webpack.optimize.OccurenceOrderPlugin());
 plugins.push(new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false}));
 
-module.exports = [
+module.exports = /*[
 {
     name : "server",
     context: path.resolve(__dirname, "main/server"),
@@ -62,9 +63,9 @@ module.exports = [
         ]
     },
     plugins: plugins, 
-},
+},*/
 {
-    devtool: "inline-source-map",
+    devtool: "source-map",
     name : "client",
     context: path.resolve(__dirname, "main/client"),
     entry : [
@@ -80,7 +81,6 @@ module.exports = [
     resolve: {
         extension: ["", ".js"]
     },
-    externals: nodeModules,
     module:{
         loaders: [
            {test:/\.js$/, exclude:/node_modules/, loader:'babel-loader'},
@@ -99,4 +99,4 @@ module.exports = [
         }
     }
 }
-];
+;

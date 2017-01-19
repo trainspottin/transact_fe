@@ -21,7 +21,8 @@ var controllers_path = path.join(__dirname, 'controllers');
 gutil.log('controllers path: %s', controllers_path);
 var router = express.Router();
 var application = require(path.join(controllers_path, 'application'));
-router.get('/', application.index);
+var debug_controller = require(path.join(controllers_path, 'debug_controller'));
+router.get('/', debug_controller.index, application.index);
 
 // Apply router
 app.use('/', router);
