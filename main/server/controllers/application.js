@@ -12,31 +12,7 @@ module.exports.index = function(req, res, next){
     res.set('X-FRAME-OPTIONS', 'DENY');
 
     var home_data = {
-        body: {
-            title: 'Home Platform'
-        },
-        menu: {
-            'Home': '/#/home',
-            'Admin': {
-                'User': '/#/amdin/user',
-                'Group': '/#/admin/group',
-                'Resource': '/#/admin/resource'
-            },
-            'Bank': {
-                'Bank List': '/#/bank',
-                'Account': '/#/account'
-            },
-            'Transaction': {
-                'Report': '/#/transact/report',
-                'Search': '/#/transact/search',
-                'Items': '/#/transact/items'
-            },
-            'Invest': {
-                'Gold': '/#/invest/gold',
-                'Stock': '/#/invest/stock',
-                'Currency': '/#/invest/currency'
-            }
-        }
+        base_url:'/assets/'+global.conf.env.hash+'/'
     };
     res.render('application', home_data);
 };

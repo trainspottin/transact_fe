@@ -1,4 +1,12 @@
 'use strict';
+var NODE_DEBUG = process.env.NODE_DEBUG === "debug";
+var NODE_ENV = process.env.NODE_ENV !== "production";
+var NODE_HASH = (NODE_DEBUG) ? "dev" : ""+new Date().getTime();
+global.conf = {
+    env: { debug:NODE_DEBUG, production:NODE_ENV, hash:NODE_HASH}
+};
+console.log('global');
+console.log(global.conf.env);
 
 // Tools libraries
 var path = require('path');
@@ -25,6 +33,8 @@ var debug_controller = require(path.join(controllers_path, 'debug_controller'));
 router.get('/', debug_controller.index, application.index);
 
 // Apply router
+var webDir = path.join(__dirname, '../client');
+app.use(/\/assets\/[0-9a-z]+/, debug_controller.index, express.static(webDir));
 app.use('/', router);
 var server = app.listen(port, function(){
     var host = server.address().address;
