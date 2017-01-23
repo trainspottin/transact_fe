@@ -36,8 +36,8 @@
       "// NODE_ENV   :  dev  | prod  |  dev  |  dev  |    prod     |    prod       |",
       "// NODE_DEBUG : debug | debug | debug | debug |    debug    |    -----      |"
     ],
-    "start": "node main/server/app.js",
-    "debug": "NODE_DEBUG='debug' npm start & NODE_DEBUG='debug' webpack-dev-server --progress --colors",
+    "start": "NODE_DEBUG='debug' node main/server/app.js",
+    "debug": "build-debug & npm start & NODE_DEBUG='debug' webpack-dev-server --progress --colors",
     "run": "node main/server/app.js",
     "test": "echo 'test'",
     "tdd": "echo 'tdd'",

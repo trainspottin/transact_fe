@@ -11,7 +11,10 @@ gutil.log("NODE_ENV  =%s", NODE_ENV);
 gutil.log("NODE_HASH =%s", NODE_HASH);
 
 gutil.log("SERVER WORKSPACE: %s", path.join(__dirname, "target/workspace/assets/", NODE_HASH, "server/"));
-const TARGET_WORKSPACE = path.join(__dirname, "target/workspace/assets/", NODE_HASH);
+const CONTEXT_PATH = path.resolve(__dirname, "main/client/");
+const TARGET_WORKSPACE = path.join(__dirname, "target/workspace/");
+const CLIENT_WORKSPACE = path.join(TARGET_WORKSPACE,"assets/", NODE_HASH,"client/");
+const SERVER_WORKSPACE = path.join(TARGET_WORKSPACE,"assets/", NODE_HASH,"server/");
 
 var nodeModules = {};
 var fs = require("fs");
@@ -37,7 +40,11 @@ plugins.push(new webpack.optimize.DedupePlugin());
 plugins.push(new webpack.optimize.OccurenceOrderPlugin());
 plugins.push(new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false}));
 
-module.exports = [
+gutil.log("CONTEXT path:%s", CONTEXT_PATH);
+gutil.log("TARGET_WORKSPACE path:%s", TARGET_WORKSPACE);
+gutil.log("CLIENT_WORKSPACE path:%s", CLIENT_WORKSPACE);
+gutil.log("SERVER_WORKSPACE path:%s", SERVER_WORKSPACE);
+module.exports = /*[
 {
     name : "server",
     context: path.resolve(__dirname, "main/server"),
@@ -62,25 +69,24 @@ module.exports = [
         ]
     },
     plugins: plugins, 
-},
+},*/
 {
-    devtool: "inline-source-map",
+    devtool: "source-map",
     name : "client",
-    context: path.resolve(__dirname, "main/client"),
+    context: CONTEXT_PATH,
     entry : [
         "webpack-dev-server/client?http://127.0.0.1:8080",
         "webpack/hot/only-dev-server",
         "./app.js"
     ],
     output: {
-        path: path.join(TARGET_WORKSPACE, "client/"),
+        path: CLIENT_WORKSPACE,
         filename : "[name].bundle.js",
-        publicPath: "/"
+        publicPath: "/assets/"+NODE_HASH+"/"
     },
     resolve: {
         extension: ["", ".js"]
     },
-    externals: nodeModules,
     module:{
         loaders: [
            {test:/\.js$/, exclude:/node_modules/, loader:'babel-loader'},
@@ -92,11 +98,11 @@ module.exports = [
         new webpack.NoErrorsPlugin()
     ],
     devServer: {
-        contentBase: path.join(TARGET_WORKSPACE, "client/"),
+        contentBase: SERVER_WORKSPACE,
         hot: true,
         proxy: {
             "*":"http://localhost:3000"
         }
     }
 }
-];
+;
