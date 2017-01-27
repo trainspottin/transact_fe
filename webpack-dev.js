@@ -14,7 +14,7 @@ module.exports = function(app){
         hot: true,
         quite: false,
         noInfo: false,
-        publicPath: "/assets/"+NODE_HASH+"/",
+        publicPath: '/assets/'+NODE_HASH+'/',
         stats: {colors: true}
     }).listen(PORT, 'localhost', function(){
         gutil.log('webpack-dev-server is listening at :%s', PORT);
