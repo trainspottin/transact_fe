@@ -10,9 +10,10 @@ module.exports.index = function(req, res, next){
     // 'X-FRAME-OPTIONS' indicate that wheather <frame>,<iframe>,<object> is loadable or not.
     res.set('X-FRAME-OPTIONS', 'DENY');
 
-    var home_data = {
-        base_url:'/assets/'+global.conf.env.hash+'/'
+    var data_content = {
+        base_url:'/assets/'+global.conf.env.hash+'/',
+        play_auth_account_url: global.conf.app.play_authenticate_locator + '/login'
     };
-    res.render('login', home_data);
+    res.render('login', data_content);
 };
 

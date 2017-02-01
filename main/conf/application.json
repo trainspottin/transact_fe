@@ -1,0 +1,7 @@
+{
+    //Authentication Service
+    "play_authenticate_locator": "https://localhost/auth",
+
+    //Backend Service
+    "backend_service_locator": "https://localhost/apis"
+}

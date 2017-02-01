@@ -3,6 +3,8 @@ const path = require('path');
 const gutil = require('gulp-util');
 const express = require('express');
 const mustacheExpress = require('mustache-express');
+const config = require('./utils/config.js');
+
 
 //Load global.conf
 if(!global.conf){
@@ -16,6 +18,7 @@ if(!global.conf){
     var ROOT_DIR = path.resolve(__dirname, '../../');
     gutil.log('ROOT_DIR =%s', ROOT_DIR );
     global.conf = {
+        app: config.load(path.join(ROOT_DIR, 'main/conf/application.json')),
         env: { debug:NODE_DEBUG, production:NODE_ENV, hash:NODE_HASH},
         dir: {
             root: ROOT_DIR,
@@ -49,8 +52,10 @@ var router = express.Router();
 var application = require(path.join(controllers_path, 'application'));
 var login = require(path.join(controllers_path, 'login'));
 var debug_controller = require(path.join(controllers_path, 'debug_controller'));
+var oauth_callback = require(path.join(controllers_path, 'oauth_callback'));
 router.get('/', debug_controller.index, application.index);
 router.get('/login', debug_controller.index, login.index);
+router.get('/oauth_callback', debug_controller.index, oauth_callback.index);
 
 // Apply router
 var webDir = path.join(__dirname, '../client');

@@ -11,9 +11,9 @@ module.exports.index = function(req, res, next){
     // 'X-FRAME-OPTIONS' indicate that wheather <frame>,<iframe>,<object> is loadable or not.
     res.set('X-FRAME-OPTIONS', 'DENY');
 
-    var home_data = {
+    var content_data = {
         base_url:'/assets/'+global.conf.env.hash+'/'
     };
-    res.render('application', home_data);
+    res.render('application', content_data);
 };
 
